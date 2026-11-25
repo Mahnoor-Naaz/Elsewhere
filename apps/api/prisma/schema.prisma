@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  worlds World[]
+}
+
+// SQLite has no native enums in Prisma, so visibility is a string
+// validated by Zod ("private" | "public"). When moving to PostgreSQL,
+// this can become a real enum.
+model World {
+  id          String   @id @default(cuid())
+  ownerId     String
+  name        String
+  slug        String
+  description String   @default("")
+  coverImage  String?
+  timePeriod  String?
+  genre       String?
+  visibility  String   @default("private")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  // A user can't have two worlds with the same slug.
+  @@unique([ownerId, slug])
+  @@index([visibility])
+}

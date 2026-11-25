@@ -1,0 +1,10 @@
+node_modules
+dist
+.env
+.env.local
+*.db
+*.db-journal
+apps/api/generated
+.next
+next-env.d.ts
+*.tsbuildinfo

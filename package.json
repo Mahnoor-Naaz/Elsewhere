@@ -1,0 +1,16 @@
+{
+  "name": "elsewhere",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web": "bun --filter @elsewhere/web dev",
+    "build:web": "bun --filter @elsewhere/web build",
+    "dev:api": "bun --filter @elsewhere/api dev",
+    "test": "bun --filter @elsewhere/api test",
+    "db:migrate": "bun --filter @elsewhere/api db:migrate",
+    "typecheck": "bun --filter '*' typecheck"
+  }
+}
